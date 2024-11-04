@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { usecart } from "../context/CartContext"; // Ensure correct path to CartContext
 import ProductCard from "./ProductCard";
 import Navbar from "./Navbar";
+import Spinner from "./Spinner"; // Import the Spinner component
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -15,10 +16,14 @@ const ProductDetailPage = () => {
     const fetchProduct = async () => {
       try {
         const productResponse = await fetch(`https://fakestoreapi.com/products/${id}`);
+        if (!productResponse.ok) throw new Error("Network response was not ok");
+        
         const productData = await productResponse.json();
         setProduct(productData);
 
         const recommendationsResponse = await fetch("https://fakestoreapi.com/products");
+        if (!recommendationsResponse.ok) throw new Error("Network response was not ok");
+        
         const recommendationsData = await recommendationsResponse.json();
         const recommendations = recommendationsData
           .filter((p) => p.category === productData.category && p.id !== productData.id)
@@ -26,7 +31,7 @@ const ProductDetailPage = () => {
 
         setRecommendedProducts(recommendations);
       } catch (error) {
-        // Handle error as needed (optional logging can go here)
+        console.error("Failed to fetch product data:", error);
       } finally {
         setLoading(false);
       }
@@ -41,43 +46,44 @@ const ProductDetailPage = () => {
     }
   };
 
-  if (loading) return <p>Loading product details...</p>;
+  // Show spinner while loading
+  if (loading) return <Spinner />;
   if (!product) return <p>Product not found.</p>;
 
   return (
-   <>
-   <Navbar/>
-    <div className="max-w-7xl mx-auto p-4">
-      <div className="flex flex-col md:flex-row items-start gap-8">
-        <div className="w-full md:w-1/2 flex justify-center">
-          <img
-            src={product.image}
-            alt={product.title}
-            className="w-full h-auto max-w-sm object-contain"
-          />
+    <>
+      <Navbar />
+      <div className="max-w-7xl mx-auto p-4">
+        <div className="flex flex-col md:flex-row items-start gap-8">
+          <div className="w-full md:w-1/2 flex justify-center">
+            <img
+              src={product.image}
+              alt={product.title}
+              className="w-full h-auto max-w-sm object-contain"
+            />
+          </div>
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold">{product.title}</h1>
+            <p className="text-gray-500">${product.price}</p>
+            <p className="mt-4 text-gray-700">{product.description}</p>
+            <button
+              className="mt-6 px-4 py-2 bg-amazon_blue text-white rounded-md"
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </button>
+          </div>
         </div>
-        <div className="flex-1">
-          <h1 className="text-3xl font-bold">{product.title}</h1>
-          <p className="text-gray-500">${product.price}</p>
-          <p className="mt-4 text-gray-700">{product.description}</p>
-          <button
-            className="mt-6 px-4 py-2 bg-amazon_blue text-white rounded-md"
-            onClick={handleAddToCart}
-          >
-            Add to Cart
-          </button>
+        <div className="mt-10">
+          <h2 className="text-2xl font-bold mb-4">People also like this product</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {recommendedProducts.map((recommendedProduct) => (
+              <ProductCard key={recommendedProduct.id} product={recommendedProduct} />
+            ))}
+          </div>
         </div>
       </div>
-      <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-4">People also like this product</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {recommendedProducts.map((recommendedProduct) => (
-            <ProductCard key={recommendedProduct.id} product={recommendedProduct} />
-          ))}
-        </div>
-      </div>
-    </div>
-   </>
+    </>
   );
 };
 

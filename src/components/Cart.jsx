@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { usecart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import Spinner from "./Spinner"; 
 
 const CartPage = () => {
   const { cartItems, removeFromCart, updateItemQuantity } = usecart();
   const navigate = useNavigate();
+  
+  const [loading, setLoading] = useState(false);
 
   const handleQuantityChange = (productId, quantity) => {
     if (quantity > 0) {
+      setLoading(true); 
       updateItemQuantity(productId, quantity);
+      setLoading(false);
     }
   };
 
   const handleRemoveFromCart = (productId) => {
+    setLoading(true); 
     removeFromCart(productId);
+    setLoading(false); 
   };
 
   const calculateSubtotal = () => {
@@ -27,10 +34,14 @@ const CartPage = () => {
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div className="max-w-7xl mx-auto p-4">
         <h1 className="text-3xl font-bold mb-4">Shopping Cart</h1>
-        {cartItems.length === 0 ? (
+        {loading ? (  
+          <div className="flex justify-center items-center min-h-screen">
+            <Spinner />
+          </div>
+        ) : cartItems.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
           <div className="grid md:grid-cols-3 gap-6">
