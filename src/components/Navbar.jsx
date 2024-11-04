@@ -1,15 +1,13 @@
-// Navbar.js
 import React, { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import { usecart } from "../context/CartContext";
-// Import useCart to get cart items
 
 const Navbar = ({ onSearch }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const { cartItems } = usecart(); // Get cart items from context
+  const { cartItems } = usecart();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -18,27 +16,23 @@ const Navbar = ({ onSearch }) => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      onSearch(searchTerm); // Call the search function passed from Home
+      onSearch(searchTerm);
     }
   };
 
   return (
     <div className="bg-amazon_blue text-white">
       <div className="max-w-7xl mx-auto flex items-center justify-between p-3">
-        {/* Logo and Menu Icon (mobile) */}
         <div className="flex items-center space-x-2">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
+            src="https://tse2.mm.bing.net/th?id=OIP.3xWUQ3_6zHxQFu-TfY5_iwHaCg&pid=Api&P=0&h=220"
             alt="Amazon"
             className="w-20 sm:w-24"
           />
-          {/* Hamburger icon for mobile */}
           <div className="sm:hidden" onClick={toggleMenu}>
             {isMenuOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
           </div>
         </div>
-
-        {/* Search Bar */}
         <div className="hidden sm:flex flex-grow mx-4">
           <form onSubmit={handleSearch} className="flex bg-white rounded-md overflow-hidden w-full">
             <input
@@ -53,8 +47,6 @@ const Navbar = ({ onSearch }) => {
             </button>
           </form>
         </div>
-
-        {/* Links */}
         <div className="hidden sm:flex items-center space-x-4 text-sm">
           <div className="cursor-pointer hover:underline">
             <p className="hidden lg:block">Hello, Sign in</p>
@@ -69,8 +61,6 @@ const Navbar = ({ onSearch }) => {
             <p className="font-bold">Prime</p>
           </div>
         </div>
-
-        {/* Cart Icon with Link to Cart Page */}
         <Link to="/cart" className="relative flex items-center cursor-pointer">
           <FaShoppingCart size={24} />
           <span className="absolute -top-2 -right-2 bg-amazon_yellow text-black font-bold rounded-full px-2 text-xs">
@@ -79,8 +69,6 @@ const Navbar = ({ onSearch }) => {
           <p className="hidden sm:inline ml-2 font-bold">Cart</p>
         </Link>
       </div>
-
-      {/* Mobile Search Bar */}
       <div className="flex sm:hidden p-2">
         <form onSubmit={handleSearch} className="flex bg-white rounded-md overflow-hidden w-full">
           <input
@@ -95,8 +83,6 @@ const Navbar = ({ onSearch }) => {
           </button>
         </form>
       </div>
-
-      {/* Mobile Dropdown Menu */}
       {isMenuOpen && (
         <div className="sm:hidden bg-amazon_blue text-white p-4">
           <div className="border-t border-gray-700 pt-4">

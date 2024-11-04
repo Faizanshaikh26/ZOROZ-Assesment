@@ -1,4 +1,3 @@
-// ProductDetailPage.js
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { usecart } from "../context/CartContext"; // Ensure correct path to CartContext
@@ -27,7 +26,7 @@ const ProductDetailPage = () => {
 
         setRecommendedProducts(recommendations);
       } catch (error) {
-        console.error("Failed to fetch product details:", error);
+        // Handle error as needed (optional logging can go here)
       } finally {
         setLoading(false);
       }
@@ -38,7 +37,7 @@ const ProductDetailPage = () => {
 
   const handleAddToCart = () => {
     if (product) {
-      addToCart({ ...product, quantity: 1 }); // Adding product with initial quantity of 1
+      addToCart({ ...product, quantity: 1 }); 
     }
   };
 

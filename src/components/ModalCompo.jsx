@@ -1,4 +1,3 @@
-// Modal.js
 import React from "react";
 
 const Modal = ({ isOpen, onClose, orderDetails }) => {
@@ -39,9 +38,8 @@ const Modal = ({ isOpen, onClose, orderDetails }) => {
           <button
             onClick={() => {
               alert("Payment Successful! Thank you for your order.");
-              onClose(); // Close modal after confirmation
-              window.location.href="/"
-              // Here you could also clear the cart, if needed
+              onClose();
+              window.location.href="/";
             }}
             className="px-4 py-2 bg-blue-500 text-white rounded-md"
           >

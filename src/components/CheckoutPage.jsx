@@ -1,7 +1,6 @@
-// CheckoutPage.js
 import React, { useState } from "react";
 import { usecart } from "../context/CartContext";
-import Modal from "../components/ModalCompo"; // Import the Modal component
+import Modal from "../components/ModalCompo";
 
 const CheckoutPage = () => {
   const { cartItems } = usecart();
@@ -19,7 +18,6 @@ const CheckoutPage = () => {
     total: 0,
   });
 
-  // Handle form submission
   const handleCheckout = (event) => {
     event.preventDefault();
 
@@ -51,7 +49,7 @@ const CheckoutPage = () => {
       total,
     });
 
-    setIsModalOpen(true); // Open the modal
+    setIsModalOpen(true);
   };
 
   if (cartItems.length === 0) {
@@ -63,7 +61,6 @@ const CheckoutPage = () => {
       <h1 className="text-2xl font-bold mb-6">Checkout</h1>
 
       <form onSubmit={handleCheckout}>
-        {/* Shipping Information */}
         <div className="mb-4">
           <h2 className="text-xl font-semibold mb-2">Shipping Information</h2>
           <input
@@ -103,7 +100,6 @@ const CheckoutPage = () => {
           />
         </div>
 
-        {/* Payment Information */}
         <div className="mb-4">
           <h2 className="text-xl font-semibold mb-2">Payment Information</h2>
           <input
@@ -137,7 +133,6 @@ const CheckoutPage = () => {
         </button>
       </form>
 
-      {/* Modal for Order Summary */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
