@@ -9,7 +9,7 @@ const LandingPage = ({ products, setSelectedCategory, selectedCategory, loading 
   return (
     <div className="max-w-7xl mx-auto p-4">
       {/* Category Buttons */}
-      <div className="flex justify-center space-x-4 mb-8 flex-wrap">
+      <div className="flex justify-center space-x-4 mb-8  space-y-4 flex-wrap">
         {categories.map((category) => (
           <button
             key={category}
